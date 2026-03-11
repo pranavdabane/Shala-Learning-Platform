@@ -317,7 +317,7 @@ const HomePage: React.FC<HomePageProps> = ({
         <div className="absolute top-0 right-0 p-10 opacity-10 hidden md:block"><span className="material-symbols-outlined text-[200px] font-black text-black">celebration</span></div>
         <h2 className="text-3xl md:text-7xl font-black text-black leading-none tracking-tighter">Ready to start <br />your journey?</h2>
         <p className="text-black/70 font-bold text-base md:text-xl max-w-xl mx-auto uppercase tracking-wide">Unlock 500+ premium industry certifications.</p>
-        <button onClick={onBrowse} className="w-full sm:w-auto px-10 md:px-14 py-5 md:py-6 bg-black text-white font-black rounded-2xl md:rounded-3xl hover:scale-110 active:scale-95 transition-all shadow-2xl text-base md:text-lg tracking-widest">JOIN SHALA TODAY</button>
+        <button onClick={onBrowse} className="w-full sm:w-auto px-10 md:px-14 py-5 md:py-6 bg-black text-white font-black rounded-2xl md:rounded-3xl hover:scale-110 active:scale-95 transition-all shadow-2xl text-base md:text-lg tracking-widest">JOIN ONLINE शाळा TODAY</button>
       </section>
     </div>
   );

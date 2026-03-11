@@ -1046,8 +1046,15 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20 text-left">
           <div className="space-y-8">
             <div className="flex items-center gap-4 text-white">
-              <div className="size-12 flex items-center justify-center bg-primary rounded-2xl text-black shadow-[0_0_15px_rgba(230,255,0,0.4)]">
-                <span className="material-symbols-outlined text-3xl font-black">school</span>
+              <div className="size-14 lg:size-16 flex items-center justify-center bg-transparent rounded-2xl overflow-hidden transition-transform">
+                <img 
+                  src="https://i.ibb.co/vY6pP2N/logo.png" 
+                  alt="Shala Logo" 
+                  className="h-full w-full object-contain filter invert-[1] brightness-[1.2] contrast-[1.2] sepia-[1] saturate-[10] hue-rotate-[25deg] drop-shadow-[0_0_8px_rgba(230,255,0,0.5)]"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://lh3.googleusercontent.com/aida-public/AB6AXuDiAlEG1u2oD4veMA6KReqiK8KyL6dRFVRuvjZpTYs8frCMyYDwvCBHESnpNR4gwXfFruyaiJ1N3DTaQJ8S6j9ui9r_-qHflL-iBseKFyeqSIrxledClSUlXRzyGEFk3yt0p2X-TH0h4TAwFdgL8A9mxTPWWOscI7XpeQy-hi6RwNo5ayL_xxDstPGKk9EVJYYo6jfDIf9EkThAd5_GzQXbMHTp-ibAWxvScE_vEtW7oAKTOIfqZ2jmWi3Brfi-lMLx_ASnZPCt_h07";
+                  }}
+                />
               </div>
               <h2 className="text-3xl font-black tracking-tighter cursor-pointer" onClick={() => handleNavigate('home')}>Shala</h2>
             </div>

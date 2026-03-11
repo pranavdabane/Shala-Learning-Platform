@@ -106,6 +106,12 @@ const AdminPage: React.FC<AdminPageProps> = ({
   const [selectedUser, setSelectedUser] = useState<UserProfile | null>(null);
   const [userSearchQuery, setUserSearchQuery] = useState('');
   const [activitySearchQuery, setActivitySearchQuery] = useState('');
+  const [wishlistSearchQuery, setWishlistSearchQuery] = useState('');
+  const [inquirySearchQuery, setInquirySearchQuery] = useState('');
+  const [chatSearchQuery, setChatSearchQuery] = useState('');
+  const [reviewSearchQuery, setReviewSearchQuery] = useState('');
+  const [courseSearchQuery, setCourseSearchQuery] = useState('');
+  const [enrollmentSearchQuery, setEnrollmentSearchQuery] = useState('');
   const [explorerTable, setExplorerTable] = useState<string>('profiles');
 
   const fetchData = async () => {
@@ -461,44 +467,72 @@ const AdminPage: React.FC<AdminPageProps> = ({
         {activeTab === 'users' && renderUsers()}
         
         {activeTab === 'wishlist' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
               <div>
-                <h3 className="text-xl font-black">Global Wishlist Audit</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Monitoring student interest across the catalog</p>
+                <h3 className="text-2xl font-black font-display">Global Wishlist Audit</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Monitoring student interest across the catalog</p>
+              </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search wishlist..."
+                    value={wishlistSearchQuery}
+                    onChange={(e) => setWishlistSearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
+                </div>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
               </div>
             </div>
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px]">
-                <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
                   <tr>
                     {['Student', 'Course Interest', 'Added On'].map(h => (
-                      <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                  {wishlistEntries.map((w, idx) => {
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {wishlistEntries
+                    .filter(w => {
+                      const user = users.find(u => u.id === w.user_id);
+                      const course = courses.find(c => c.id === w.course_id);
+                      return (user?.full_name?.toLowerCase().includes(wishlistSearchQuery.toLowerCase()) || 
+                              user?.email?.toLowerCase().includes(wishlistSearchQuery.toLowerCase()) ||
+                              course?.title?.toLowerCase().includes(wishlistSearchQuery.toLowerCase()));
+                    })
+                    .map((w, idx) => {
                     const user = users.find(u => u.id === w.user_id);
                     const course = courses.find(c => c.id === w.course_id);
                     return (
-                      <tr key={`${w.user_id}-${w.course_id}-${idx}`} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="px-8 py-5">
-                          <p className="text-sm font-bold">{user?.full_name || 'Learner'}</p>
-                          <p className="text-[9px] text-slate-400 font-bold uppercase">{user?.email}</p>
-                        </td>
-                        <td className="px-8 py-5">
-                          <div className="flex items-center gap-3">
-                            <img src={course?.imageUrl} className="size-8 rounded-lg object-cover" alt="" />
-                            <p className="text-sm font-bold">{course?.title || 'Archived Track'}</p>
+                      <tr key={`${w.user_id}-${w.course_id}-${idx}`} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                        <td className="px-10 py-6">
+                          <div className="flex items-center gap-4">
+                            <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user?.full_name || 'U')}&background=FACC15&color=000000&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                            <div>
+                              <p className="text-base font-black group-hover:text-primary transition-colors font-display">{user?.full_name || 'Learner'}</p>
+                              <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{user?.email}</p>
+                            </div>
                           </div>
                         </td>
-                        <td className="px-8 py-5 text-[10px] text-slate-400 font-bold">{new Date(w.created_at).toLocaleString()}</td>
+                        <td className="px-10 py-6">
+                          <div className="flex items-center gap-4">
+                            <img src={course?.imageUrl} className="size-12 rounded-2xl object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                            <p className="text-base font-black font-display">{course?.title || 'Archived Track'}</p>
+                          </div>
+                        </td>
+                        <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">{new Date(w.created_at).toLocaleString()}</td>
                       </tr>
                     );
                   })}
                   {wishlistEntries.length === 0 && (
-                    <tr><td colSpan={3} className="py-20 text-center text-slate-400 italic">No wishlist data available.</td></tr>
+                    <tr><td colSpan={3} className="py-32 text-center text-zinc-400 italic font-medium">No wishlist data available.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -507,40 +541,65 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'inquiries' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
               <div>
-                <h3 className="text-xl font-black">Inquiry Ledger</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Direct messages from the contact infrastructure</p>
+                <h3 className="text-2xl font-black font-display">Inquiry Ledger</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Direct messages from the contact infrastructure</p>
+              </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search inquiries..."
+                    value={inquirySearchQuery}
+                    onChange={(e) => setInquirySearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
+                </div>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
               </div>
             </div>
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px]">
-                <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
                   <tr>
                     {['Sender', 'Subject', 'Message', 'Date'].map(h => (
-                      <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                  {inquiries.map((i) => (
-                    <tr key={i.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-8 py-5">
-                        <p className="text-sm font-bold">{i.full_name}</p>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase">{i.email}</p>
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {inquiries
+                    .filter(i => i.full_name.toLowerCase().includes(inquirySearchQuery.toLowerCase()) || 
+                                i.email.toLowerCase().includes(inquirySearchQuery.toLowerCase()) ||
+                                i.subject.toLowerCase().includes(inquirySearchQuery.toLowerCase()) ||
+                                i.message.toLowerCase().includes(inquirySearchQuery.toLowerCase()))
+                    .map((i) => (
+                    <tr key={i.id} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(i.full_name)}&background=181811&color=ffffff&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                          <div>
+                            <p className="text-base font-black group-hover:text-primary transition-colors font-display">{i.full_name}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{i.email}</p>
+                          </div>
+                        </div>
                       </td>
-                      <td className="px-8 py-5">
-                        <span className="px-2 py-1 bg-primary/10 text-primary text-[9px] font-black uppercase rounded-lg border border-primary/20">
+                      <td className="px-10 py-6">
+                        <span className="px-4 py-1.5 bg-primary/10 text-primary text-[10px] font-black uppercase rounded-full border border-primary/20 tracking-widest">
                           {i.subject}
                         </span>
                       </td>
-                      <td className="px-8 py-5 text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed max-w-md">"{i.message}"</td>
-                      <td className="px-8 py-5 text-[10px] text-slate-400 font-bold">{new Date(i.created_at).toLocaleString()}</td>
+                      <td className="px-10 py-6 text-sm text-zinc-500 font-medium italic leading-relaxed max-w-md">"{i.message}"</td>
+                      <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">{new Date(i.created_at).toLocaleString()}</td>
                     </tr>
                   ))}
                   {inquiries.length === 0 && (
-                    <tr><td colSpan={4} className="py-20 text-center text-slate-400 italic">No inquiries recorded.</td></tr>
+                    <tr><td colSpan={4} className="py-32 text-center text-zinc-400 italic font-medium">No inquiries recorded.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -549,30 +608,35 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'explorer' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
               <div>
-                <h3 className="text-xl font-black">Raw Database Explorer</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Direct JSON audit of Supabase collections</p>
+                <h3 className="text-2xl font-black font-display">Raw Database Explorer</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Direct JSON audit of Supabase collections</p>
               </div>
-              <select 
-                value={explorerTable}
-                onChange={(e) => setExplorerTable(e.target.value)}
-                className="bg-white dark:bg-border-dark border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-xs font-bold focus:ring-2 focus:ring-primary outline-none"
-              >
-                <option value="profiles">Profiles Table</option>
-                <option value="enrollments">Enrollments Table</option>
-                <option value="reviews">Reviews Table</option>
-                <option value="wishlist">Wishlist Table</option>
-                <option value="activity_log">Activity Log Table</option>
-                <option value="inquiries">Inquiries Table</option>
-                <option value="courses">Courses Table</option>
-                <option value="chat_history">AI Chat History</option>
-              </select>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <select 
+                  value={explorerTable}
+                  onChange={(e) => setExplorerTable(e.target.value)}
+                  className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-primary outline-none transition-all"
+                >
+                  <option value="profiles">Profiles Table</option>
+                  <option value="enrollments">Enrollments Table</option>
+                  <option value="reviews">Reviews Table</option>
+                  <option value="wishlist">Wishlist Table</option>
+                  <option value="activity_log">Activity Log Table</option>
+                  <option value="inquiries">Inquiries Table</option>
+                  <option value="courses">Courses Table</option>
+                  <option value="chat_history">AI Chat History</option>
+                </select>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
+              </div>
             </div>
-            <div className="p-8">
-              <div className="bg-slate-900 rounded-3xl p-6 overflow-auto max-h-[600px] shadow-inner">
-                <pre className="text-emerald-400 text-[10px] font-mono leading-relaxed">
+            <div className="p-10">
+              <div className="bg-zinc-950 rounded-[32px] p-8 overflow-auto max-h-[600px] shadow-inner border border-zinc-800">
+                <pre className="text-emerald-400 text-[11px] font-mono leading-relaxed">
                   {JSON.stringify(
                     explorerTable === 'profiles' ? users :
                     explorerTable === 'enrollments' ? enrollments :
@@ -591,44 +655,68 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'chats' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
               <div>
-                <h3 className="text-xl font-black">AI Tutor Interactions</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Audit of student questions and AI responses</p>
+                <h3 className="text-2xl font-black font-display">AI Tutor Interactions</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Audit of student questions and AI responses</p>
+              </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search chats..."
+                    value={chatSearchQuery}
+                    onChange={(e) => setChatSearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
+                </div>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
               </div>
             </div>
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px]">
-                <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
                   <tr>
                     {['Student', 'Interaction', 'Timestamp'].map(h => (
-                      <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                  {chatMessages.map((chat) => (
-                    <tr key={chat.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-8 py-5">
-                        <p className="text-sm font-bold">{users.find(u => u.id === chat.user_id)?.full_name || 'Learner'}</p>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase">{chat.user_email}</p>
-                      </td>
-                      <td className="px-8 py-5 space-y-2 max-w-xl">
-                        <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-xl">
-                          <p className="text-[10px] font-black text-primary uppercase mb-1">Student Q:</p>
-                          <p className="text-xs italic">"{chat.message}"</p>
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {chatMessages
+                    .filter(chat => chat.user_email.toLowerCase().includes(chatSearchQuery.toLowerCase()) || 
+                                    chat.message.toLowerCase().includes(chatSearchQuery.toLowerCase()) ||
+                                    chat.response.toLowerCase().includes(chatSearchQuery.toLowerCase()))
+                    .map((chat) => (
+                    <tr key={chat.id} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(users.find(u => u.id === chat.user_id)?.full_name || 'U')}&background=181811&color=ffffff&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                          <div>
+                            <p className="text-base font-black group-hover:text-primary transition-colors font-display">{users.find(u => u.id === chat.user_id)?.full_name || 'Learner'}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{chat.user_email}</p>
+                          </div>
                         </div>
-                        <div className="p-3 bg-primary/5 rounded-xl border border-primary/10">
-                          <p className="text-[10px] font-black text-primary uppercase mb-1">AI Tutor A:</p>
-                          <p className="text-xs line-clamp-2">{chat.response}</p>
+                      </td>
+                      <td className="px-10 py-6 space-y-4 max-w-xl">
+                        <div className="p-5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl">
+                          <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">Student Q:</p>
+                          <p className="text-sm italic text-zinc-600 dark:text-zinc-300 font-medium leading-relaxed">"{chat.message}"</p>
+                        </div>
+                        <div className="p-5 bg-primary/5 rounded-2xl border border-primary/10">
+                          <p className="text-[10px] font-black text-primary uppercase tracking-widest mb-2">AI Tutor A:</p>
+                          <p className="text-sm text-zinc-600 dark:text-zinc-300 font-medium leading-relaxed line-clamp-3">{chat.response}</p>
                         </div>
                       </td>
-                      <td className="px-8 py-5 text-[10px] text-slate-400 font-bold">{new Date(chat.created_at).toLocaleString()}</td>
+                      <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">{new Date(chat.created_at).toLocaleString()}</td>
                     </tr>
                   ))}
                   {chatMessages.length === 0 && (
-                    <tr><td colSpan={3} className="py-20 text-center text-slate-400 italic">No AI chat logs recorded.</td></tr>
+                    <tr><td colSpan={3} className="py-32 text-center text-zinc-400 italic font-medium">No AI chat logs recorded.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -637,38 +725,38 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
         
         {activeTab === 'activity' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
               <div>
-                <h3 className="text-xl font-black">User Activity Log</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Real-time audit of every login and registration</p>
+                <h3 className="text-2xl font-black font-display">User Activity Log</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Real-time audit of every login and registration</p>
               </div>
-              <div className="flex items-center gap-4 w-full md:w-auto">
-                <div className="relative flex-1 md:w-64">
-                  <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
                   <input 
                     type="text"
                     placeholder="Search activity..."
                     value={activitySearchQuery}
                     onChange={(e) => setActivitySearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-border-dark border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-primary outline-none transition-all"
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
                   />
                 </div>
-                <button onClick={fetchData} className="size-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
-                  <span className={`material-symbols-outlined ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
                 </button>
               </div>
             </div>
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px]">
-                <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
                   <tr>
                     {['Learner', 'Event', 'User ID', 'Timestamp'].map(h => (
-                      <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
                   {activityLogs
                     .filter(log => 
                       (log.email?.toLowerCase() || '').includes(activitySearchQuery.toLowerCase()) ||
@@ -682,32 +770,32 @@ const AdminPage: React.FC<AdminPageProps> = ({
                         const user = users.find(u => u.id === log.user_id);
                         if (user) setSelectedUser(user);
                       }}
-                      className="hover:bg-slate-50/50 transition-colors cursor-pointer group"
+                      className="hover:bg-primary/5 transition-colors cursor-pointer group"
                     >
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-3">
-                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(log.full_name)}&background=181811&color=ffffff&bold=true`} className="size-8 rounded-lg" alt="" />
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(log.full_name)}&background=181811&color=ffffff&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
                           <div>
-                            <p className="text-sm font-bold group-hover:text-primary transition-colors">{log.full_name}</p>
-                            <p className="text-[9px] text-slate-400 font-bold uppercase">{log.email}</p>
+                            <p className="text-base font-black group-hover:text-primary transition-colors font-display">{log.full_name}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{log.email}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-8 py-5">
-                        <span className={`px-3 py-1 text-[9px] font-black uppercase rounded-lg ${log.activity_type === 'REGISTER' ? 'bg-green-500/10 text-green-500' : 'bg-blue-500/10 text-blue-500'}`}>
+                      <td className="px-10 py-6">
+                        <span className={`px-4 py-1.5 text-[10px] font-black uppercase rounded-full ${log.activity_type === 'REGISTER' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-blue-500/10 text-blue-500 border border-blue-500/20'}`}>
                           {log.activity_type}
                         </span>
                       </td>
-                      <td className="px-8 py-5 text-[10px] text-slate-400 font-mono">
+                      <td className="px-10 py-6 text-[10px] text-zinc-400 font-mono">
                         {log.user_id.slice(0, 8)}...
                       </td>
-                      <td className="px-8 py-5 text-[10px] text-slate-400 font-bold">
+                      <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">
                         {new Date(log.created_at).toLocaleString()}
                       </td>
                     </tr>
                   ))}
                   {activityLogs.length === 0 && (
-                    <tr><td colSpan={4} className="py-20 text-center text-slate-400 italic">No activity logs found.</td></tr>
+                    <tr><td colSpan={4} className="py-32 text-center text-zinc-400 italic font-medium">No activity logs found.</td></tr>
                   )}
                 </tbody>
               </table>
@@ -716,70 +804,125 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'enrollments' && (
-           <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
-               <div>
-                 <h3 className="text-xl font-black">Sales Ledger</h3>
-                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Audit Trail: Every cloud enrollment processed</p>
-               </div>
-             </div>
-             <div className="overflow-x-auto no-scrollbar">
-               <table className="w-full text-left min-w-[800px]">
-                 <thead className="bg-slate-50/50 dark:bg-slate-900/50">
-                   <tr>
-                     {['Reference', 'Student', 'Course', 'Payment How', 'Date'].map(h => (
-                       <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
-                     ))}
-                   </tr>
-                 </thead>
-                 <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                   {enrollments.map((e) => (
-                     <tr key={e.id} className="hover:bg-slate-50/50 transition-colors">
-                       <td className="px-8 py-5 text-xs font-black text-primary">#{e.order_id || 'PRO'}</td>
-                       <td className="px-8 py-5">
-                          <p className="text-sm font-bold">{users.find(u => u.id === e.user_id)?.full_name || 'Student'}</p>
-                          <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tighter">{users.find(u => u.id === e.user_id)?.email}</p>
-                       </td>
-                       <td className="px-8 py-5 text-sm font-bold truncate max-w-[200px]">{courses.find(c => c.id === e.course_id)?.title || 'Archived'}</td>
-                       <td className="px-8 py-5">
-                         <span className={`px-2 py-1 text-[9px] font-black uppercase rounded-lg border ${e.payment_method === 'UPI' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}>
-                           {e.payment_method || 'CARD'}
-                         </span>
-                       </td>
-                       <td className="px-8 py-5 text-[10px] text-slate-400 font-bold">{new Date(e.created_at).toLocaleString()}</td>
-                     </tr>
-                   ))}
-                 </tbody>
-               </table>
-             </div>
-           </div>
-        )}
-
-        {activeTab === 'reviews' && (
-          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-            <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
-              <h3 className="text-xl font-black">Feedback Hub</h3>
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
+              <div>
+                <h3 className="text-2xl font-black font-display">Sales Ledger</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Audit Trail: Every cloud enrollment processed</p>
+              </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search sales..."
+                    value={enrollmentSearchQuery}
+                    onChange={(e) => setEnrollmentSearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
+                </div>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
+              </div>
             </div>
-            <div className="overflow-x-auto no-scrollbar">
-              <table className="w-full text-left min-w-[800px]">
-                <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
                   <tr>
-                    {['Reviewer', 'Rating', 'Comment', 'Moderation'].map(h => (
-                      <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                    {['Reference', 'Student', 'Course', 'Payment How', 'Date'].map(h => (
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
-                  {reviews.map((r) => (
-                    <tr key={r.id} className="hover:bg-slate-50/50 transition-colors">
-                      <td className="px-8 py-5 font-black text-sm">{r.user_name}</td>
-                      <td className="px-8 py-5 text-amber-500">
-                        <div className="flex">{Array.from({length: 5}).map((_, i) => <span key={i} className={`material-symbols-outlined text-xs ${i < r.rating ? 'fill-1' : ''}`}>star</span>)}</div>
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {enrollments
+                    .filter(e => {
+                      const user = users.find(u => u.id === e.user_id);
+                      const course = courses.find(c => c.id === e.course_id);
+                      return (user?.full_name?.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) || 
+                              user?.email?.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+                              course?.title?.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()) ||
+                              e.order_id?.toLowerCase().includes(enrollmentSearchQuery.toLowerCase()));
+                    })
+                    .map((e) => (
+                    <tr key={e.id} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                      <td className="px-10 py-6 text-sm font-black text-primary font-display">#{e.order_id || 'PRO'}</td>
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(users.find(u => u.id === e.user_id)?.full_name || 'U')}&background=181811&color=ffffff&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                          <div>
+                            <p className="text-base font-black group-hover:text-primary transition-colors font-display">{users.find(u => u.id === e.user_id)?.full_name || 'Student'}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">{users.find(u => u.id === e.user_id)?.email}</p>
+                          </div>
+                        </div>
                       </td>
-                      <td className="px-8 py-5 text-xs text-slate-600 dark:text-slate-300 italic leading-relaxed max-w-md">"{r.comment}"</td>
-                      <td className="px-8 py-5">
-                         <button onClick={() => handleDeleteReview(r.id)} className="text-red-500 p-2 bg-red-500/10 rounded-xl hover:bg-red-500 hover:text-white transition-all">
-                           <span className="material-symbols-outlined text-lg">delete</span>
+                      <td className="px-10 py-6 text-base font-black font-display truncate max-w-[200px]">{courses.find(c => c.id === e.course_id)?.title || 'Archived'}</td>
+                      <td className="px-10 py-6">
+                        <span className={`px-4 py-1.5 text-[10px] font-black uppercase rounded-full border ${e.payment_method === 'UPI' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 border-zinc-200 dark:border-zinc-800'}`}>
+                          {e.payment_method || 'CARD'}
+                        </span>
+                      </td>
+                      <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">{new Date(e.created_at).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'reviews' && (
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
+              <div>
+                <h3 className="text-2xl font-black font-display">Feedback Hub</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Audit student reviews and platform sentiment</p>
+              </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search feedback..."
+                    value={reviewSearchQuery}
+                    onChange={(e) => setReviewSearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
+                </div>
+                <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+                  <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+                </button>
+              </div>
+            </div>
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
+                  <tr>
+                    {['Reviewer', 'Rating', 'Comment', 'Moderation'].map(h => (
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {reviews
+                    .filter(r => r.user_name.toLowerCase().includes(reviewSearchQuery.toLowerCase()) || 
+                                r.comment.toLowerCase().includes(reviewSearchQuery.toLowerCase()))
+                    .map((r) => (
+                    <tr key={r.id} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(r.user_name)}&background=181811&color=ffffff&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
+                          <span className="text-base font-black group-hover:text-primary transition-colors font-display">{r.user_name}</span>
+                        </div>
+                      </td>
+                      <td className="px-10 py-6 text-amber-500">
+                        <div className="flex">{Array.from({length: 5}).map((_, i) => <span key={i} className={`material-symbols-outlined text-sm ${i < r.rating ? 'fill-1' : ''}`}>star</span>)}</div>
+                      </td>
+                      <td className="px-10 py-6 text-sm text-zinc-500 font-medium italic leading-relaxed max-w-md">"{r.comment}"</td>
+                      <td className="px-10 py-6">
+                         <button onClick={() => handleDeleteReview(r.id)} className="size-12 rounded-2xl bg-red-500/10 text-red-500 flex items-center justify-center hover:bg-red-500 hover:text-white transition-all border border-red-500/20">
+                           <span className="material-symbols-outlined text-xl">delete</span>
                          </button>
                       </td>
                     </tr>
@@ -791,46 +934,83 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
         
         {activeTab === 'courses' && (
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white dark:bg-surface-dark p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm">
-              <div className="text-left">
-                <h3 className="text-xl font-black">Course Catalog Management</h3>
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Manage cloud-hosted learning tracks</p>
+          <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+            <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
+              <div>
+                <h3 className="text-2xl font-black font-display">Course Catalog Management</h3>
+                <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Manage cloud-hosted learning tracks</p>
               </div>
-              <button 
-                onClick={() => onEditCourse({
-                  id: `course-${Date.now()}`,
-                  title: 'New Course Title',
-                  description: 'Course description goes here...',
-                  category: Category.TECHNOLOGY,
-                  price: 49.99,
-                  rating: 5.0,
-                  duration: '10h 30m',
-                  imageUrl: 'https://picsum.photos/seed/course/800/600',
-                  instructor: 'New Instructor'
-                })}
-                className="px-8 py-4 bg-primary text-background-dark font-black rounded-2xl shadow-xl hover:scale-105 transition-all flex items-center gap-2 uppercase tracking-widest text-xs"
-              >
-                <span className="material-symbols-outlined font-black">add</span>
-                Add New Track
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in slide-in-from-left-4 duration-500 text-left">
-              {courses.map(course => (
-                <div key={course.id} className="bg-white dark:bg-surface-dark p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4 group">
-                  <div className="flex gap-4">
-                    <img src={course.imageUrl} className="size-20 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" alt="" />
-                    <div className="flex-1">
-                      <p className="text-[10px] font-black uppercase text-primary mb-1">{course.category}</p>
-                      <h4 className="font-bold text-sm leading-tight line-clamp-2">{course.title}</h4>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-slate-800">
-                    <div className="space-y-1"><p className="text-[10px] text-slate-400 font-bold uppercase">Price</p><p className="text-sm font-black text-primary">${course.price}</p></div>
-                    <button onClick={() => onEditCourse(course)} className="px-6 py-2 bg-background-dark text-white text-[10px] font-black uppercase rounded-lg hover:bg-primary hover:text-background-dark transition-all shadow-sm">Edit Track</button>
-                  </div>
+              <div className="flex items-center gap-5 w-full md:w-auto">
+                <div className="relative flex-1 md:w-80">
+                  <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+                  <input 
+                    type="text"
+                    placeholder="Search tracks..."
+                    value={courseSearchQuery}
+                    onChange={(e) => setCourseSearchQuery(e.target.value)}
+                    className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
+                  />
                 </div>
-              ))}
+                <button 
+                  onClick={() => onEditCourse({
+                    id: `course-${Date.now()}`,
+                    title: 'New Course Title',
+                    description: 'Course description goes here...',
+                    category: Category.TECHNOLOGY,
+                    price: 49.99,
+                    rating: 5.0,
+                    duration: '10h 30m',
+                    imageUrl: 'https://picsum.photos/seed/course/800/600',
+                    instructor: 'New Instructor'
+                  })}
+                  className="px-10 py-5 bg-primary text-background-dark font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 shrink-0"
+                >
+                  <span className="material-symbols-outlined text-2xl font-black">add</span>
+                  Add New Track
+                </button>
+              </div>
+            </div>
+            <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
+                  <tr>
+                    {['Track Detail', 'Category', 'Price', 'Instructor', 'Actions'].map(h => (
+                      <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
+                  {courses
+                    .filter(c => c.title.toLowerCase().includes(courseSearchQuery.toLowerCase()) || 
+                                c.description.toLowerCase().includes(courseSearchQuery.toLowerCase()) ||
+                                c.instructor.toLowerCase().includes(courseSearchQuery.toLowerCase()))
+                    .map((course) => (
+                    <tr key={course.id} className="hover:bg-primary/5 transition-colors cursor-pointer group">
+                      <td className="px-10 py-6">
+                        <div className="flex items-center gap-4">
+                          <img src={course.imageUrl} className="size-16 rounded-2xl object-cover border border-zinc-200 dark:border-zinc-800 shadow-sm group-hover:scale-105 transition-transform" alt="" />
+                          <div className="max-w-xs">
+                            <p className="text-base font-black group-hover:text-primary transition-colors font-display line-clamp-1">{course.title}</p>
+                            <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest line-clamp-1">{course.duration}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-10 py-6">
+                        <span className="px-4 py-1.5 bg-primary/10 text-primary text-[10px] font-black uppercase rounded-full border border-primary/20 tracking-widest">
+                          {course.category}
+                        </span>
+                      </td>
+                      <td className="px-10 py-6 text-base font-black text-primary font-display">${course.price}</td>
+                      <td className="px-10 py-6 text-sm text-zinc-500 font-bold">{course.instructor}</td>
+                      <td className="px-10 py-6">
+                        <button onClick={() => onEditCourse(course)} className="size-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all border border-zinc-100 dark:border-zinc-800">
+                          <span className="material-symbols-outlined text-xl">edit</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}

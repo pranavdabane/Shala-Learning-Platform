@@ -186,7 +186,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ course, onBack, onSuccess, initialM
               <span className="material-symbols-outlined text-2xl md:text-3xl font-bold">{isMaintenanceMode ? 'lock' : 'school'}</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-white leading-tight mb-4 text-left">
-              {isMaintenanceMode ? 'Admin Portal.' : mode === 'signup' ? 'Start your journey at Shala.' : mode === 'forgot' ? 'Recover your Shala account.' : mode === 'reset' ? 'Finalize new security key.' : 'Welcome back to Shala.'}
+              {isMaintenanceMode ? 'Admin Portal.' : mode === 'signup' ? 'Start your journey at Online शाळा.' : mode === 'forgot' ? 'Recover your शाळा account.' : mode === 'reset' ? 'Finalize new security key.' : 'Welcome back to शाळा.'}
             </h2>
             <div className={`p-4 rounded-2xl backdrop-blur-sm border text-left ${isMaintenanceMode ? 'bg-red-500/10 border-red-500/20' : 'bg-primary/10 border-neon-border'}`}>
               <p className={`${isMaintenanceMode ? 'text-red-400' : 'text-primary'} text-xs md:text-sm font-medium italic leading-relaxed`}>"{motivation}"</p>

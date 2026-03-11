@@ -34,14 +34,14 @@ const AboutPage: React.FC<AboutPageProps> = ({ onBack }) => {
       {/* Hero Section */}
       <section className="text-center space-y-8 px-4">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
-          The Shala Difference
+          The शाळा Difference
         </div>
         <h1 className="text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] font-display text-white">
           Redefining <br />
           <span className="text-primary italic">Excellence.</span>
         </h1>
         <p className="text-lg md:text-xl text-secondary-text max-w-2xl mx-auto leading-relaxed font-medium">
-          Founded in 2018, Shala has grown from a boutique design academy to a global leader in AI-enhanced professional development.
+          Founded in 2018, Online शाळा has grown from a boutique design academy to a global leader in AI-enhanced professional development.
         </p>
       </section>
 
