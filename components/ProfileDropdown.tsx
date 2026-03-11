@@ -20,30 +20,30 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isOpen, onClose, enro
   return (
     <>
       <div className="fixed inset-0 z-[60]" onClick={onClose}></div>
-      <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-[#1f1f14] rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 p-6 z-[70] animate-in fade-in zoom-in-95 duration-200">
-        <div className="flex flex-col items-center text-center space-y-4 pb-6 border-b border-slate-100 dark:border-slate-800">
-          <div className={`size-20 rounded-full border-4 overflow-hidden shadow-lg ${isAdmin ? 'border-red-500' : 'border-primary'}`}>
+      <div className="absolute right-0 mt-2 w-72 bg-card rounded-3xl shadow-2xl border border-neon-border p-6 z-[70] animate-in fade-in zoom-in-95 duration-200">
+        <div className="flex flex-col items-center text-center space-y-4 pb-6 border-b border-neon-border">
+          <div className={`size-20 rounded-full border-4 overflow-hidden shadow-lg ${isAdmin ? 'border-red-500' : 'border-primary shadow-[0_0_15px_rgba(230,255,0,0.3)]'}`}>
             <img 
               alt="Profile" 
               className="h-full w-full object-cover" 
-              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=${isAdmin ? 'ff0000' : 'f2f20d'}&color=${isAdmin ? 'ffffff' : '181811'}&bold=true`} 
+              src={`https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=${isAdmin ? 'ff0000' : 'e6ff00'}&color=${isAdmin ? 'ffffff' : '000000'}&bold=true`} 
             />
           </div>
           <div>
             <div className="flex items-center justify-center gap-1">
-              <h3 className="text-lg font-black tracking-tight">{displayName}</h3>
+              <h3 className="text-lg font-black tracking-tight text-white">{displayName}</h3>
               {isAdmin && <span className="material-symbols-outlined text-red-500 text-sm">verified</span>}
             </div>
-            <p className="text-xs text-slate-500 font-medium">{displayEmail}</p>
+            <p className="text-xs text-secondary-text font-medium">{displayEmail}</p>
           </div>
           <div className="flex gap-4 w-full">
-            <div className="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl">
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">Status</p>
+            <div className="flex-1 bg-background-main p-3 rounded-2xl border border-neon-border">
+              <p className="text-xs text-secondary-text font-bold uppercase tracking-tighter">Status</p>
               <p className={`text-sm font-black ${isAdmin ? 'text-red-500' : 'text-primary'}`}>{isAdmin ? 'Admin' : 'Pro'}</p>
             </div>
-            <div className="flex-1 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-2xl">
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">Impact</p>
-              <p className="text-sm font-black text-slate-700 dark:text-slate-200">92%</p>
+            <div className="flex-1 bg-background-main p-3 rounded-2xl border border-neon-border">
+              <p className="text-xs text-secondary-text font-bold uppercase tracking-tighter">Impact</p>
+              <p className="text-sm font-black text-white">92%</p>
             </div>
           </div>
         </div>
@@ -60,28 +60,28 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ isOpen, onClose, enro
           )}
           <button 
             onClick={() => { onNavigate('mylearning'); onClose(); }}
-            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium"
+            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-primary hover:text-black transition-colors text-sm font-medium text-white"
           >
-            <span className="material-symbols-outlined text-slate-400">school</span>
+            <span className="material-symbols-outlined text-secondary-text group-hover:text-black">school</span>
             My Learning
           </button>
           <button 
             onClick={() => { onNavigate('career-paths'); onClose(); }}
-            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium"
+            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-primary hover:text-black transition-colors text-sm font-medium text-white"
           >
-            <span className="material-symbols-outlined text-slate-400">route</span>
+            <span className="material-symbols-outlined text-secondary-text group-hover:text-black">route</span>
             Career Paths
           </button>
           <button 
             onClick={() => { onNavigate('settings'); onClose(); }}
-            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium"
+            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-primary hover:text-black transition-colors text-sm font-medium text-white"
           >
-            <span className="material-symbols-outlined text-slate-400">settings</span>
+            <span className="material-symbols-outlined text-secondary-text group-hover:text-black">settings</span>
             Settings
           </button>
           <button 
             onClick={() => { onLogout(); onClose(); }}
-            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-red-50 text-red-500 transition-colors text-sm font-black mt-2"
+            className="flex items-center gap-3 w-full p-3 rounded-xl hover:bg-red-500 hover:text-white text-red-500 transition-colors text-sm font-black mt-2"
           >
             <span className="material-symbols-outlined">logout</span>
             Logout

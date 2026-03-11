@@ -65,25 +65,25 @@ const ContactForm: React.FC<ContactFormProps> = ({ userEmail, userName }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-surface-dark rounded-[48px] p-10 md:p-16 shadow-2xl border border-slate-100 dark:border-slate-800 text-left relative overflow-hidden">
+    <div className="bg-card rounded-[48px] p-10 md:p-16 shadow-2xl border border-neon-border text-left relative overflow-hidden">
       <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
         <span className="material-symbols-outlined text-[180px] font-black text-primary">mail</span>
       </div>
 
       <div className="max-w-2xl relative z-10">
         <div className="space-y-4 mb-12">
-          <h2 className="text-4xl font-black tracking-tighter font-display">Direct Inquiry</h2>
-          <p className="text-slate-500 font-medium text-lg">Have a specific question about our curriculum or corporate training? Reach out directly.</p>
+          <h2 className="text-4xl font-black tracking-tighter font-display text-white">Direct Inquiry</h2>
+          <p className="text-secondary-text font-medium text-lg">Have a specific question about our curriculum or corporate training? Reach out directly.</p>
         </div>
 
         {isSuccess ? (
-          <div className="bg-green-500/10 border-2 border-green-500/20 p-12 rounded-[40px] text-center space-y-6 animate-in zoom-in-95">
-            <div className="size-20 bg-green-500 rounded-full flex items-center justify-center mx-auto text-white shadow-xl">
+          <div className="bg-primary/10 border-2 border-primary/20 p-12 rounded-[40px] text-center space-y-6 animate-in zoom-in-95">
+            <div className="size-20 bg-primary rounded-full flex items-center justify-center mx-auto text-black shadow-xl shadow-primary/20">
               <span className="material-symbols-outlined text-4xl font-black">done_all</span>
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-black text-green-600 dark:text-green-400 font-display">Message Delivered</h3>
-              <p className="text-base font-medium text-slate-500">Our support leads will contact you within 24 hours.</p>
+              <h3 className="text-2xl font-black text-primary font-display">Message Delivered</h3>
+              <p className="text-base font-medium text-secondary-text">Our support leads will contact you within 24 hours.</p>
             </div>
           </div>
         ) : (
@@ -97,68 +97,68 @@ const ContactForm: React.FC<ContactFormProps> = ({ userEmail, userName }) => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-slate-400 tracking-[0.2em] ml-1">Full Name</label>
+                <label className="text-[10px] font-black uppercase text-secondary-text tracking-[0.2em] ml-1">Full Name</label>
                 <input 
                   ref={nameInputRef}
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent rounded-2xl px-6 py-5 text-sm focus:border-primary focus:bg-white dark:focus:bg-slate-900 transition-all outline-none dark:text-white" 
+                  className="w-full bg-background-main border border-neon-border rounded-2xl px-6 py-5 text-sm focus:ring-2 focus:ring-primary transition-all outline-none text-white" 
                   placeholder="Jane Learner" 
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-[10px] font-bold uppercase text-slate-400 tracking-[0.2em] ml-1">Email Address</label>
+                <label className="text-[10px] font-black uppercase text-secondary-text tracking-[0.2em] ml-1">Email Address</label>
                 <input 
                   required
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent rounded-2xl px-6 py-5 text-sm focus:border-primary focus:bg-white dark:focus:bg-slate-900 transition-all outline-none dark:text-white" 
+                  className="w-full bg-background-main border border-neon-border rounded-2xl px-6 py-5 text-sm focus:ring-2 focus:ring-primary transition-all outline-none text-white" 
                   placeholder="jane@example.com" 
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-[0.2em] ml-1">Subject</label>
+              <label className="text-[10px] font-black uppercase text-secondary-text tracking-[0.2em] ml-1">Subject</label>
               <div className="relative">
                 <select 
                   value={formData.subject}
                   onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                  className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent rounded-2xl px-6 py-5 text-sm focus:border-primary focus:bg-white dark:focus:bg-slate-900 transition-all outline-none dark:text-white appearance-none cursor-pointer"
+                  className="w-full bg-background-main border border-neon-border rounded-2xl px-6 py-5 text-sm focus:ring-2 focus:ring-primary transition-all outline-none text-white appearance-none cursor-pointer"
                 >
-                  <option>General Inquiry</option>
-                  <option>Course Content Feedback</option>
-                  <option>Corporate Training</option>
-                  <option>Technical Support</option>
-                  <option>Billing Question</option>
+                  <option className="bg-background-secondary">General Inquiry</option>
+                  <option className="bg-background-secondary">Course Content Feedback</option>
+                  <option className="bg-background-secondary">Corporate Training</option>
+                  <option className="bg-background-secondary">Technical Support</option>
+                  <option className="bg-background-secondary">Billing Question</option>
                 </select>
-                <span className="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">expand_more</span>
+                <span className="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-secondary-text">expand_more</span>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="text-[10px] font-bold uppercase text-slate-400 tracking-[0.2em] ml-1">Your Message</label>
+              <label className="text-[10px] font-black uppercase text-secondary-text tracking-[0.2em] ml-1">Your Message</label>
               <textarea 
                 required
                 rows={5}
                 value={formData.message}
                 onChange={(e) => setFormData({...formData, message: e.target.value})}
-                className="w-full bg-slate-50 dark:bg-slate-900/50 border-2 border-transparent rounded-2xl px-6 py-5 text-sm focus:border-primary focus:bg-white dark:focus:bg-slate-900 transition-all outline-none dark:text-white resize-none" 
+                className="w-full bg-background-main border border-neon-border rounded-2xl px-6 py-5 text-sm focus:ring-2 focus:ring-primary transition-all outline-none text-white resize-none" 
                 placeholder="How can we help you achieve your goals?" 
               />
             </div>
 
             <button 
               disabled={isSubmitting}
-              className="w-full py-6 bg-slate-900 dark:bg-primary text-white dark:text-background-dark font-bold rounded-3xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-70 group"
+              className="w-full py-6 bg-primary text-black font-black rounded-3xl shadow-[0_0_20px_rgba(230,255,0,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-70 group uppercase tracking-widest text-sm"
             >
               {isSubmitting ? (
                 <span className="size-6 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
               ) : (
                 <>
-                  <span className="uppercase tracking-[0.2em] text-sm">Submit Inquiry</span>
+                  <span>Submit Inquiry</span>
                   <span className="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
                 </>
               )}

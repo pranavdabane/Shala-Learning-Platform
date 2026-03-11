@@ -130,12 +130,12 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6 animate-in zoom-in-95 duration-500">
-        <div className="size-24 rounded-full bg-primary flex items-center justify-center text-background-dark shadow-2xl shadow-primary/20">
+        <div className="size-24 rounded-full bg-primary flex items-center justify-center text-black shadow-[0_0_30px_rgba(230,255,0,0.4)]">
           <span className="material-symbols-outlined text-5xl font-bold">check_circle</span>
         </div>
         <div className="space-y-2 text-center">
-          <h2 className="text-4xl font-black">Enrollment Successful!</h2>
-          <p className="text-slate-500 dark:text-slate-400">You've unlocked <strong>{courses.length}</strong> new tracks on Shala.</p>
+          <h2 className="text-4xl font-black text-white">Enrollment Successful!</h2>
+          <p className="text-secondary-text">You've unlocked <strong>{courses.length}</strong> new tracks on Shala.</p>
         </div>
         <p className="text-sm text-primary font-bold animate-pulse">Syncing your learning environment...</p>
       </div>
@@ -153,7 +153,7 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
         .animate-shake { animation: shake 0.2s ease-in-out 0s 2; }
       `}</style>
 
-      <button onClick={onBack} className="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors mb-8 group">
+      <button onClick={onBack} className="flex items-center gap-2 text-secondary-text hover:text-primary transition-colors mb-8 group">
         <span className="material-symbols-outlined group-hover:-translate-x-1 transition-transform">arrow_back</span>
         <span className="text-sm font-medium">Return</span>
       </button>
@@ -161,35 +161,35 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
       <div className="flex flex-col lg:flex-row gap-12">
         <div className="flex-1 space-y-8">
           <div className="space-y-2 text-left">
-            <h1 className="text-3xl font-black">Checkout Secure</h1>
-            <p className="text-slate-500">Finalize your professional evolution with our secure payment infrastructure.</p>
+            <h1 className="text-3xl font-black text-white">Checkout Secure</h1>
+            <p className="text-secondary-text">Finalize your professional evolution with our secure payment infrastructure.</p>
           </div>
 
           <form onSubmit={handlePayment} className="space-y-6 text-left">
-            <div className="bg-white dark:bg-[#1f1f14] p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-6">
-              <h3 className="font-bold text-lg flex items-center gap-2">
+            <div className="bg-card p-8 rounded-3xl shadow-sm border border-neon-border space-y-6">
+              <h3 className="font-bold text-lg flex items-center gap-2 text-white">
                 <span className="material-symbols-outlined text-primary">person</span>
                 Student Profile
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Name</label>
-                  <input required value={name} onChange={(e) => setName(e.target.value)} className={`w-full bg-slate-50 dark:bg-[#393928] border-2 rounded-xl text-sm p-3 focus:ring-0 dark:text-white ${errors.name ? 'border-red-500' : 'border-transparent focus:border-primary'}`} placeholder="Jane Doe" />
+                  <label className="text-[10px] font-black uppercase text-secondary-text tracking-widest">Name</label>
+                  <input required value={name} onChange={(e) => setName(e.target.value)} className={`w-full bg-background-main border-2 rounded-xl text-sm p-3 focus:ring-0 text-white ${errors.name ? 'border-red-500' : 'border-neon-border focus:border-primary'}`} placeholder="Jane Doe" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase text-slate-400 tracking-widest">Email</label>
-                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full bg-slate-50 dark:bg-[#393928] border-2 rounded-xl text-sm p-3 focus:ring-0 dark:text-white ${errors.email ? 'border-red-500' : 'border-transparent focus:border-primary'}`} placeholder="jane@shala.edu" />
+                  <label className="text-[10px] font-black uppercase text-secondary-text tracking-widest">Email</label>
+                  <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={`w-full bg-background-main border-2 rounded-xl text-sm p-3 focus:ring-0 text-white ${errors.email ? 'border-red-500' : 'border-neon-border focus:border-primary'}`} placeholder="jane@shala.edu" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-white dark:bg-[#1f1f14] rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
-               <div className="flex border-b border-slate-100 dark:border-slate-800">
-                  <button type="button" onClick={() => setActiveMethod('card')} className={`flex-1 py-5 flex flex-col items-center gap-2 transition-all ${activeMethod === 'card' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-slate-600'}`}>
+            <div className="bg-card rounded-[32px] border border-neon-border shadow-sm overflow-hidden">
+               <div className="flex border-b border-neon-border">
+                  <button type="button" onClick={() => setActiveMethod('card')} className={`flex-1 py-5 flex flex-col items-center gap-2 transition-all ${activeMethod === 'card' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-secondary-text hover:text-white'}`}>
                     <span className="material-symbols-outlined text-2xl">credit_card</span>
                     <span className="text-[10px] font-black uppercase tracking-widest">Credit/Debit</span>
                   </button>
-                  <button type="button" onClick={() => setActiveMethod('upi')} className={`flex-1 py-5 flex flex-col items-center gap-2 transition-all ${activeMethod === 'upi' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-slate-600'}`}>
+                  <button type="button" onClick={() => setActiveMethod('upi')} className={`flex-1 py-5 flex flex-col items-center gap-2 transition-all ${activeMethod === 'upi' ? 'bg-primary/5 text-primary border-b-2 border-primary' : 'text-secondary-text hover:text-white'}`}>
                     <span className="material-symbols-outlined text-2xl">qr_code_2</span>
                     <span className="text-[10px] font-black uppercase tracking-widest">UPI ID</span>
                   </button>
@@ -199,31 +199,31 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
                   {activeMethod === 'card' ? (
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-lg dark:text-white">Card Information</h3>
+                        <h3 className="font-bold text-lg text-white">Card Information</h3>
                         <div className="flex gap-2 opacity-60">
                           <img src="https://img.icons8.com/color/48/000000/visa.png" className="h-5" alt="" />
                           <img src="https://img.icons8.com/color/48/000000/mastercard.png" className="h-5" alt="" />
                         </div>
                       </div>
                       <div className="space-y-4">
-                        <input required value={cardNumber} onChange={handleCardNumberChange} className="w-full bg-slate-50 dark:bg-[#393928] border-none rounded-xl p-3 text-sm tracking-widest dark:text-white" placeholder="0000 0000 0000 0000" />
+                        <input required value={cardNumber} onChange={handleCardNumberChange} className="w-full bg-background-main border border-neon-border rounded-xl p-3 text-sm tracking-widest text-white focus:border-primary outline-none" placeholder="0000 0000 0000 0000" />
                         <div className="grid grid-cols-2 gap-4">
-                          <input required value={expiry} onChange={handleExpiryChange} className="w-full bg-slate-50 dark:bg-[#393928] border-none rounded-xl p-3 text-sm dark:text-white" placeholder="MM/YY" />
-                          <input required type="password" value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))} className="w-full bg-slate-50 dark:bg-[#393928] border-none rounded-xl p-3 text-sm dark:text-white" placeholder="CVV" />
+                          <input required value={expiry} onChange={handleExpiryChange} className="w-full bg-background-main border border-neon-border rounded-xl p-3 text-sm text-white focus:border-primary outline-none" placeholder="MM/YY" />
+                          <input required type="password" value={cvv} onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))} className="w-full bg-background-main border border-neon-border rounded-xl p-3 text-sm text-white focus:border-primary outline-none" placeholder="CVV" />
                         </div>
                       </div>
                     </div>
                   ) : (
                     <div className="space-y-6">
-                      <h3 className="font-bold text-lg dark:text-white">UPI Transfer</h3>
-                      <input required value={upiId} onChange={(e) => setUpiId(e.target.value)} className="w-full bg-slate-50 dark:bg-[#393928] border-none rounded-xl p-4 text-sm dark:text-white" placeholder="username@bank" />
-                      <p className="text-xs text-slate-500">Authorize the request in your UPI application after clicking pay.</p>
+                      <h3 className="font-bold text-lg text-white">UPI Transfer</h3>
+                      <input required value={upiId} onChange={(e) => setUpiId(e.target.value)} className="w-full bg-background-main border border-neon-border rounded-xl p-4 text-sm text-white focus:border-primary outline-none" placeholder="username@bank" />
+                      <p className="text-xs text-secondary-text">Authorize the request in your UPI application after clicking pay.</p>
                     </div>
                   )}
                </div>
             </div>
 
-            <button type="submit" disabled={isProcessing} className="w-full py-5 bg-primary text-background-dark font-black text-lg rounded-3xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
+            <button type="submit" disabled={isProcessing} className="w-full py-5 bg-primary text-black font-black text-lg rounded-3xl shadow-[0_0_20px_rgba(230,255,0,0.4)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3">
               {isProcessing ? <span className="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"></span> : <>
                 <span className="material-symbols-outlined">shield_with_heart</span>
                 <span>CONFIRM & PAY ${finalTotal.toFixed(2)}</span>
@@ -233,25 +233,25 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
         </div>
 
         <div className="w-full lg:w-96 space-y-6">
-          <div className="bg-background-dark text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden border border-white/5 text-left">
-            <div className="absolute top-0 right-0 p-8 opacity-10"><span className="material-symbols-outlined text-[120px] font-black">receipt_long</span></div>
+          <div className="bg-card text-white rounded-[40px] p-10 shadow-2xl relative overflow-hidden border border-neon-border text-left">
+            <div className="absolute top-0 right-0 p-8 opacity-10"><span className="material-symbols-outlined text-[120px] font-black text-primary">receipt_long</span></div>
             <h3 className="text-xl font-black mb-8 relative z-10">Order Summary</h3>
             
             <div className="space-y-4 mb-8 relative z-10 max-h-40 overflow-y-auto no-scrollbar pr-2">
               {courses.map(course => (
                 <div key={course.id} className="flex gap-4 items-center">
-                  <img src={course.imageUrl} className="size-12 rounded-lg object-cover" alt="" />
+                  <img src={course.imageUrl} className="size-12 rounded-lg object-cover" alt="" referrerPolicy="no-referrer" />
                   <div className="flex-1 min-w-0">
                     <h4 className="text-xs font-bold truncate">{course.title}</h4>
-                    <p className="text-[10px] text-slate-500">${course.price}</p>
+                    <p className="text-[10px] text-secondary-text">${course.price}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="space-y-4 border-t border-white/10 pt-8 relative z-10">
+            <div className="space-y-4 border-t border-neon-border pt-8 relative z-10">
               <div className="flex justify-between text-xs font-medium">
-                <span className="text-slate-500 uppercase tracking-widest">Subtotal</span>
+                <span className="text-secondary-text uppercase tracking-widest">Subtotal</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
               {isBundle && (
@@ -260,7 +260,7 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
                   <span>-${discount.toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-2xl border-t border-white/10 pt-6 font-black text-primary">
+              <div className="flex justify-between text-2xl border-t border-neon-border pt-6 font-black text-primary">
                 <span className="tracking-tighter text-white">Total</span>
                 <span>${finalTotal.toFixed(2)}</span>
               </div>
@@ -268,12 +268,12 @@ const EnrollmentPage: React.FC<EnrollmentPageProps> = ({ courses, user, onBack, 
           </div>
 
           {roiMessage && (
-            <div className="bg-primary/5 border border-primary/20 p-8 rounded-[40px] text-left">
+            <div className="bg-card border border-neon-border p-8 rounded-[40px] text-left">
               <div className="flex items-center gap-2 text-primary mb-3">
                 <span className="material-symbols-outlined text-sm font-black">auto_awesome</span>
                 <span className="text-[10px] font-black uppercase tracking-widest">Career Forecast</span>
               </div>
-              <p className="text-sm font-medium italic leading-relaxed text-slate-700 dark:text-slate-200">"{roiMessage}"</p>
+              <p className="text-sm font-medium italic leading-relaxed text-secondary-text">"{roiMessage}"</p>
             </div>
           )}
         </div>

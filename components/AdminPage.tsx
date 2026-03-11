@@ -157,7 +157,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
 
     return (
       <div className="fixed inset-0 z-[100] flex justify-end bg-background-dark/40 backdrop-blur-sm animate-in fade-in duration-300">
-        <div className="w-full max-w-2xl bg-white dark:bg-[#1f1f14] h-full shadow-2xl p-10 overflow-y-auto animate-in slide-in-from-right duration-500 border-l border-slate-200 dark:border-slate-800 text-left">
+        <div className="w-full max-w-2xl bg-white dark:bg-surface-dark h-full shadow-2xl p-10 overflow-y-auto animate-in slide-in-from-right duration-500 border-l border-slate-200 dark:border-slate-800 text-left">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
             <div className="flex flex-col sm:flex-row gap-6 items-center">
               <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=f2f20d&color=181811&bold=true`} className="size-20 rounded-3xl shadow-xl" alt="" />
@@ -282,34 +282,36 @@ const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   const renderDashboard = () => (
-    <div className="space-y-6 md:space-y-8 animate-in fade-in duration-500 text-left">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="space-y-8 md:space-y-12 animate-in fade-in duration-500 text-left">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {[
-          { label: 'Cloud Profiles', value: users.length.toString(), icon: 'person_search', color: 'text-blue-500' },
-          { label: 'Verified Sales', value: enrollments.length.toString(), icon: 'account_balance_wallet', color: 'text-green-500' },
-          { label: 'Global Interest', value: wishlistEntries.length.toString(), icon: 'favorite', color: 'text-red-500' },
-          { label: 'Platform Sentiment', value: reviews.length.toString(), icon: 'forum', color: 'text-amber-500' }
+          { label: 'Cloud Profiles', value: users.length.toString(), icon: 'person_search', color: 'text-blue-500', bg: 'bg-blue-500/5' },
+          { label: 'Verified Sales', value: enrollments.length.toString(), icon: 'account_balance_wallet', color: 'text-green-500', bg: 'bg-green-500/5' },
+          { label: 'Global Interest', value: wishlistEntries.length.toString(), icon: 'favorite', color: 'text-red-500', bg: 'bg-red-500/5' },
+          { label: 'Platform Sentiment', value: reviews.length.toString(), icon: 'forum', color: 'text-amber-500', bg: 'bg-amber-500/5' }
         ].map((stat) => (
-          <div key={stat.label} className="bg-white dark:bg-[#1f1f14] p-4 md:p-6 rounded-[24px] md:rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm transition-transform hover:-translate-y-1">
-            <div className={`size-10 md:size-12 rounded-xl md:rounded-2xl bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center mb-3 md:mb-4 ${stat.color}`}>
-              <span className="material-symbols-outlined text-2xl md:text-3xl font-bold">{stat.icon}</span>
+          <div key={stat.label} className="bg-white dark:bg-zinc-900/50 p-6 md:p-8 rounded-[32px] border border-zinc-100 dark:border-zinc-800 shadow-sm transition-all hover:-translate-y-1 hover:shadow-xl group">
+            <div className={`size-12 md:size-14 rounded-2xl ${stat.bg} flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${stat.color}`}>
+              <span className="material-symbols-outlined text-3xl md:text-4xl font-black">{stat.icon}</span>
             </div>
-            <p className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{stat.label}</p>
-            <p className="text-2xl md:text-3xl font-black tracking-tight">{stat.value}</p>
+            <p className="text-[10px] md:text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">{stat.label}</p>
+            <p className="text-3xl md:text-4xl font-black tracking-tighter font-display">{stat.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="bg-background-dark text-white p-6 md:p-10 rounded-[24px] md:rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col justify-between border border-white/5">
-        <div className="absolute top-0 right-0 p-10 opacity-10 hidden lg:block">
-          <span className="material-symbols-outlined text-[100px] md:text-[140px] font-black text-primary">monitoring</span>
+      <div className="bg-black text-white p-8 md:p-16 rounded-[48px] md:rounded-[64px] shadow-2xl relative overflow-hidden flex flex-col justify-between border border-white/5">
+        <div className="absolute top-0 right-0 p-16 opacity-10 hidden lg:block pointer-events-none">
+          <span className="material-symbols-outlined text-[180px] font-black text-primary">monitoring</span>
         </div>
-        <div className="relative z-10 space-y-4">
-          <h3 className="text-lg md:text-2xl font-black mb-1 md:mb-2">Platform Intelligence Hub</h3>
-          <p className="text-slate-400 max-w-xl font-medium text-xs md:text-base leading-relaxed">Monitoring real-time activity across the cloud infrastructure. Audit student engagement metrics and financial history.</p>
-          <div className="flex flex-col sm:flex-row gap-3 pt-2 md:pt-4">
-            <button onClick={() => setActiveTab('users')} className="w-full sm:w-auto px-6 md:px-8 py-3 bg-primary text-background-dark font-black rounded-xl text-[10px] md:text-xs uppercase tracking-widest hover:scale-105 transition-all">Open User Hub</button>
-            <button onClick={() => setActiveTab('enrollments')} className="w-full sm:w-auto px-6 md:px-8 py-3 bg-white/10 text-white font-black rounded-xl text-[10px] md:text-xs uppercase tracking-widest hover:bg-white/20 transition-all">Audit Sales</button>
+        <div className="relative z-10 space-y-8">
+          <div className="space-y-4">
+            <h3 className="text-2xl md:text-4xl font-black tracking-tighter font-display">Platform Intelligence Hub</h3>
+            <p className="text-zinc-400 max-w-2xl font-medium text-sm md:text-xl leading-relaxed">Monitoring real-time activity across the cloud infrastructure. Audit student engagement metrics and financial history with precision.</p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <button onClick={() => setActiveTab('users')} className="w-full sm:w-auto px-10 py-5 bg-primary text-background-dark font-black rounded-2xl text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20">Open User Hub</button>
+            <button onClick={() => setActiveTab('enrollments')} className="w-full sm:w-auto px-10 py-5 bg-white/10 text-white font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-white/20 transition-all border border-white/10">Audit Sales</button>
           </div>
         </div>
       </div>
@@ -323,65 +325,66 @@ const AdminPage: React.FC<AdminPageProps> = ({
     );
 
     return (
-      <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
-        <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
+      <div className="bg-white dark:bg-zinc-900/50 rounded-[48px] border border-zinc-100 dark:border-zinc-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+        <div className="p-10 border-b border-zinc-50 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 bg-zinc-50/30 dark:bg-zinc-900/10">
           <div>
-            <h3 className="text-xl font-black">Student Intelligence Hub</h3>
-            <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mt-1">Select a student for deep-dive audit</p>
+            <h3 className="text-2xl font-black font-display">Student Intelligence Hub</h3>
+            <p className="text-[10px] text-zinc-500 font-black uppercase tracking-[0.3em] mt-2">Select a student for deep-dive audit</p>
           </div>
-          <div className="flex items-center gap-4 w-full md:w-auto">
-            <div className="relative flex-1 md:w-64">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+          <div className="flex items-center gap-5 w-full md:w-auto">
+            <div className="relative flex-1 md:w-80">
+              <span className="material-symbols-outlined absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
               <input 
                 type="text"
                 placeholder="Search by Gmail..."
                 value={userSearchQuery}
                 onChange={(e) => setUserSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#393928] border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-primary outline-none transition-all"
+                className="w-full pl-14 pr-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl text-sm focus:ring-2 focus:ring-primary outline-none transition-all font-medium"
               />
             </div>
-            <button onClick={fetchData} className="size-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
-              <span className={`material-symbols-outlined ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
+            <button onClick={fetchData} className="size-14 rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 flex items-center justify-center text-zinc-400 shrink-0 transition-colors border border-zinc-100 dark:border-zinc-800">
+              <span className={`material-symbols-outlined text-2xl ${isLoadingData ? 'animate-spin' : ''}`}>refresh</span>
             </button>
           </div>
         </div>
-        <div className="overflow-x-auto min-h-[400px] no-scrollbar">
-          <table className="w-full text-left min-w-[800px]">
-            <thead className="bg-slate-50/50 dark:bg-slate-900/50">
+        <div className="overflow-x-auto min-h-[500px] no-scrollbar">
+          <table className="w-full text-left min-w-[900px]">
+            <thead className="bg-zinc-50/50 dark:bg-zinc-900/50">
               <tr>
                 {['Learner Profile', 'Email Identity', 'Joined On', 'Enrollments', 'Actions'].map(h => (
-                  <th key={h} className="px-8 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{h}</th>
+                  <th key={h} className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">{h}</th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50 dark:divide-slate-800">
+            <tbody className="divide-y divide-zinc-50 dark:divide-zinc-800">
               {filteredUsers.map((u) => {
                 const count = enrollments.filter(e => e.user_id === u.id).length;
                 return (
                   <tr key={u.id} onClick={() => setSelectedUser(u)} className="hover:bg-primary/5 transition-colors cursor-pointer group">
-                    <td className="px-8 py-5 flex items-center gap-3">
-                      <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(u.full_name || 'U')}&background=181811&color=ffffff&bold=true`} className="size-9 rounded-xl border border-slate-200" alt="" />
+                    <td className="px-10 py-6 flex items-center gap-4">
+                      <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(u.full_name || 'U')}&background=FACC15&color=000000&bold=true`} className="size-12 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm" alt="" />
                       <div className="flex flex-col">
-                        <span className="text-sm font-black group-hover:text-primary transition-colors">{u.full_name || 'Verified Learner'}</span>
+                        <span className="text-base font-black group-hover:text-primary transition-colors font-display">{u.full_name || 'Verified Learner'}</span>
+                        <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">ID: {u.id.slice(0, 8)}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-5 text-sm text-slate-500 font-medium">{u.email}</td>
-                    <td className="px-8 py-5 text-[10px] text-slate-400 uppercase font-bold">{new Date(u.created_at).toLocaleDateString()}</td>
-                    <td className="px-8 py-5">
-                      <span className={`px-3 py-1 text-[10px] font-black rounded-lg ${count > 0 ? 'bg-green-500/10 text-green-500' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'}`}>
+                    <td className="px-10 py-6 text-sm text-zinc-500 font-bold">{u.email}</td>
+                    <td className="px-10 py-6 text-[11px] text-zinc-400 uppercase font-black tracking-widest">{new Date(u.created_at).toLocaleDateString()}</td>
+                    <td className="px-10 py-6">
+                      <span className={`px-4 py-1.5 text-[10px] font-black rounded-full ${count > 0 ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400'}`}>
                         {count} {count === 1 ? 'TRACK' : 'TRACKS'}
                       </span>
                     </td>
-                    <td className="px-8 py-5">
-                      <button className="size-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all">
-                        <span className="material-symbols-outlined text-sm">visibility</span>
+                    <td className="px-10 py-6">
+                      <button className="size-12 rounded-2xl bg-zinc-50 dark:bg-zinc-800 flex items-center justify-center hover:bg-primary hover:text-background-dark transition-all border border-zinc-100 dark:border-zinc-800">
+                        <span className="material-symbols-outlined text-xl">visibility</span>
                       </button>
                     </td>
                   </tr>
                 );
               })}
               {filteredUsers.length === 0 && (
-                <tr><td colSpan={5} className="py-20 text-center text-slate-400 italic">No student profiles matched your search.</td></tr>
+                <tr><td colSpan={5} className="py-32 text-center text-zinc-400 italic font-medium">No student profiles matched your search.</td></tr>
               )}
             </tbody>
           </table>
@@ -394,33 +397,33 @@ const AdminPage: React.FC<AdminPageProps> = ({
     <div className="space-y-6 md:space-y-10 pb-20 pt-2 md:pt-0">
       {selectedUser && <UserDetailView user={selectedUser} />}
       
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 md:gap-8 text-left">
-        <div className="space-y-3 w-full lg:w-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary text-background-dark rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-widest mb-1 shadow-lg shadow-primary/10">
-            <span className="material-symbols-outlined text-xs md:text-sm">verified_user</span>
-            Administrator Panel Active
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-8 text-left">
+        <div className="space-y-4 w-full lg:w-auto">
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-red-500 text-white rounded-full text-[10px] font-black uppercase tracking-[0.4em] mb-1 shadow-2xl shadow-red-500/20">
+            <span className="material-symbols-outlined text-sm font-black">verified_user</span>
+            Command Center Active
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tighter leading-[0.95] lg:text-6xl">Control Center</h1>
-          <p className="text-slate-500 text-[10px] sm:text-lg font-medium italic max-w-2xl leading-relaxed">Global oversight of student lifecycle, cloud fulfillment, and platform intelligence.</p>
+          <h1 className="text-4xl sm:text-6xl font-black tracking-tighter leading-[0.85] lg:text-8xl font-display">Control Center</h1>
+          <p className="text-zinc-500 text-sm sm:text-2xl font-medium max-w-2xl leading-tight tracking-tight">Global oversight of student lifecycle, cloud fulfillment, and platform intelligence.</p>
         </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 md:gap-4 w-full lg:w-auto mt-2 lg:mt-0">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
           <button 
             onClick={() => { setActiveTab('courses'); onEditCourse?.({ id: '', title: '', description: '', price: 0, category: Category.TECHNOLOGY, imageUrl: '', rating: 0, reviews: 0, duration: '', instructor: '' }); }}
-            className="px-6 py-3 md:px-8 md:py-4 bg-primary text-background-dark font-black rounded-xl md:rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-[10px] uppercase tracking-widest flex items-center justify-center gap-2"
+            className="px-10 py-5 bg-primary text-background-dark font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3"
           >
-            <span className="material-symbols-outlined text-lg font-black">add</span>
+            <span className="material-symbols-outlined text-2xl font-black">add</span>
             Add New Track
           </button>
-          <button onClick={onBack} className="px-6 py-3 md:px-8 md:py-4 bg-white dark:bg-[#1f1f14] border border-slate-200 dark:border-slate-800 font-black text-[10px] uppercase rounded-xl md:rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-all shadow-sm flex items-center justify-center gap-2">
-            <span className="material-symbols-outlined text-lg">logout</span>
+          <button onClick={onBack} className="px-10 py-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 font-black text-xs uppercase tracking-[0.2em] rounded-2xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all shadow-sm flex items-center justify-center gap-3">
+            <span className="material-symbols-outlined text-2xl">logout</span>
             Exit Admin
           </button>
         </div>
       </div>
 
-      <div className="relative -mx-4 px-4 sm:-mx-6 sm:px-6 mb-4 group/admin-tabs">
-        <div className="flex p-2 bg-slate-100 dark:bg-[#151510] rounded-2xl md:rounded-[32px] w-full overflow-x-auto no-scrollbar shadow-inner border border-slate-200 dark:border-white/5 scroll-smooth snap-x">
-          <div className="flex gap-1.5 min-w-max">
+      <div className="relative -mx-4 px-4 sm:-mx-6 sm:px-6 mb-6 group/admin-tabs">
+        <div className="flex p-3 bg-zinc-100 dark:bg-zinc-950 rounded-[32px] md:rounded-[48px] w-full overflow-x-auto no-scrollbar shadow-inner border border-zinc-200 dark:border-white/5 scroll-smooth snap-x">
+          <div className="flex gap-2 min-w-max">
             {[
               { id: 'dashboard', label: 'Overview', icon: 'dashboard' },
               { id: 'users', label: 'User Hub', icon: 'group' },
@@ -436,13 +439,13 @@ const AdminPage: React.FC<AdminPageProps> = ({
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center justify-center gap-2.5 py-3.5 px-6 rounded-xl md:rounded-2xl text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all shrink-0 snap-start ${
+                className={`flex items-center justify-center gap-3 py-4 px-8 rounded-2xl md:rounded-3xl text-[10px] font-black uppercase tracking-[0.2em] transition-all shrink-0 snap-start border-2 ${
                   activeTab === tab.id 
-                    ? 'bg-white dark:bg-[#1f1f14] text-primary shadow-md border border-slate-100 dark:border-slate-800 scale-[1.02] z-10' 
-                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
+                    ? 'bg-white dark:bg-zinc-900 text-primary shadow-2xl border-primary scale-[1.05] z-10' 
+                    : 'bg-transparent border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-white'
                 }`}
               >
-                <span className={`material-symbols-outlined text-base md:text-xl ${activeTab === tab.id ? 'text-primary' : ''}`}>{tab.icon}</span>
+                <span className={`material-symbols-outlined text-xl ${activeTab === tab.id ? 'text-primary' : ''}`}>{tab.icon}</span>
                 {tab.label}
               </button>
             ))}
@@ -458,7 +461,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         {activeTab === 'users' && renderUsers()}
         
         {activeTab === 'wishlist' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <div>
                 <h3 className="text-xl font-black">Global Wishlist Audit</h3>
@@ -504,7 +507,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'inquiries' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <div>
                 <h3 className="text-xl font-black">Inquiry Ledger</h3>
@@ -546,7 +549,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'explorer' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <div>
                 <h3 className="text-xl font-black">Raw Database Explorer</h3>
@@ -555,7 +558,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
               <select 
                 value={explorerTable}
                 onChange={(e) => setExplorerTable(e.target.value)}
-                className="bg-white dark:bg-[#393928] border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-xs font-bold focus:ring-2 focus:ring-primary outline-none"
+                className="bg-white dark:bg-border-dark border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-xs font-bold focus:ring-2 focus:ring-primary outline-none"
               >
                 <option value="profiles">Profiles Table</option>
                 <option value="enrollments">Enrollments Table</option>
@@ -588,7 +591,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'chats' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <div>
                 <h3 className="text-xl font-black">AI Tutor Interactions</h3>
@@ -634,7 +637,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
         
         {activeTab === 'activity' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <div>
                 <h3 className="text-xl font-black">User Activity Log</h3>
@@ -648,7 +651,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
                     placeholder="Search activity..."
                     value={activitySearchQuery}
                     onChange={(e) => setActivitySearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-[#393928] border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-primary outline-none transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-white dark:bg-border-dark border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-primary outline-none transition-all"
                   />
                 </div>
                 <button onClick={fetchData} className="size-10 rounded-full hover:bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
@@ -713,7 +716,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'enrollments' && (
-           <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+           <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
              <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
                <div>
                  <h3 className="text-xl font-black">Sales Ledger</h3>
@@ -753,7 +756,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         )}
 
         {activeTab === 'reviews' && (
-          <div className="bg-white dark:bg-[#1f1f14] rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
+          <div className="bg-white dark:bg-surface-dark rounded-[40px] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden animate-in slide-in-from-right-4 duration-500 text-left">
             <div className="p-8 border-b border-slate-50 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-slate-50/30 dark:bg-slate-900/30">
               <h3 className="text-xl font-black">Feedback Hub</h3>
             </div>
@@ -789,7 +792,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         
         {activeTab === 'courses' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white dark:bg-[#1f1f14] p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 bg-white dark:bg-surface-dark p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm">
               <div className="text-left">
                 <h3 className="text-xl font-black">Course Catalog Management</h3>
                 <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Manage cloud-hosted learning tracks</p>
@@ -814,7 +817,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in slide-in-from-left-4 duration-500 text-left">
               {courses.map(course => (
-                <div key={course.id} className="bg-white dark:bg-[#1f1f14] p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4 group">
+                <div key={course.id} className="bg-white dark:bg-surface-dark p-6 rounded-[32px] border border-slate-100 dark:border-slate-800 shadow-sm flex flex-col gap-4 group">
                   <div className="flex gap-4">
                     <img src={course.imageUrl} className="size-20 rounded-2xl object-cover shadow-sm group-hover:scale-105 transition-transform" alt="" />
                     <div className="flex-1">

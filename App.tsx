@@ -1,5 +1,6 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import BottomNav from './components/BottomNav';
@@ -76,13 +77,13 @@ const LegalModal: React.FC<{ type: 'terms' | 'privacy' | null; content: LegalCon
   const active = content[type];
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-background-dark/80 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="bg-white dark:bg-[#1f1f14] w-full max-w-2xl rounded-[40px] shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col max-h-[85vh] border border-primary/20 overflow-hidden text-slate-900 dark:text-white">
-        <div className="p-8 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/20 shrink-0">
+      <div className="bg-card w-full max-w-2xl rounded-[40px] shadow-2xl animate-in zoom-in-95 duration-300 flex flex-col max-h-[85vh] border border-neon-border overflow-hidden text-white">
+        <div className="p-8 border-b border-neon-border flex justify-between items-center bg-background-secondary shrink-0">
           <div className="text-left">
             <h2 className="text-3xl font-black tracking-tight">{active.title}</h2>
-            <p className="text-[10px] font-black uppercase text-slate-400 tracking-widest mt-1">{active.updated}</p>
+            <p className="text-[10px] font-black uppercase text-secondary-text tracking-widest mt-1">{active.updated}</p>
           </div>
-          <button onClick={onClose} className="size-12 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 flex items-center justify-center transition-colors">
+          <button onClick={onClose} className="size-12 rounded-full hover:bg-background-main flex items-center justify-center transition-colors">
             <span className="material-symbols-outlined text-2xl">close</span>
           </button>
         </div>
@@ -90,11 +91,11 @@ const LegalModal: React.FC<{ type: 'terms' | 'privacy' | null; content: LegalCon
           {active.sections.map((s) => (
             <div key={s.h} className="space-y-3 text-left">
               <h4 className="text-lg font-black text-primary">{s.h}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-300 leading-relaxed font-medium">{s.p}</p>
+              <p className="text-sm text-secondary-text leading-relaxed font-medium">{s.p}</p>
             </div>
           ))}
-          <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
-            <button onClick={onClose} className="w-full py-5 bg-background-dark text-white dark:bg-primary dark:text-background-dark font-black rounded-3xl hover:scale-[1.02] transition-all uppercase tracking-widest text-sm">
+          <div className="pt-6 border-t border-neon-border">
+            <button onClick={onClose} className="w-full py-5 bg-primary text-black font-black rounded-3xl hover:scale-[1.02] transition-all uppercase tracking-widest text-sm shadow-[0_0_20px_rgba(230,255,0,0.4)]">
               I Understand
             </button>
           </div>
@@ -127,6 +128,13 @@ const App: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userData, setUserData] = useState<{ name: string; email: string } | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+  }, []);
+
+  const toggleDarkMode = () => {};
 
   // FETCH ENROLLMENTS FROM SUPABASE
   const fetchEnrollments = async (userId: string) => {
@@ -760,12 +768,12 @@ const App: React.FC = () => {
           <div className="relative space-y-10">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-3 md:gap-4">
               <div className="space-y-1 md:space-y-2 text-left">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-none">Explore Catalog</h1>
-                <p className="text-slate-500 dark:text-[#baba9c] text-sm md:text-lg max-w-lg">Master industry-leading skills with over 500+ curated professional courses.</p>
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-none text-white">Explore Catalog</h1>
+                <p className="text-secondary-text text-sm md:text-lg max-w-lg">Master industry-leading skills with over 500+ curated professional courses.</p>
               </div>
             </div>
 
-            <div className="sticky top-[65px] z-40 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12 border-b border-slate-200 dark:border-slate-800">
+            <div className="sticky top-[65px] z-40 bg-background-main/80 backdrop-blur-md py-4 -mx-4 px-4 sm:-mx-6 sm:px-6 md:-mx-8 md:px-8 lg:-mx-12 lg:px-12 border-b border-neon-border">
               <div 
                 onClick={() => {
                   setIsBundleBuilding(true);
@@ -774,27 +782,27 @@ const App: React.FC = () => {
                 }}
                 className={`cursor-pointer group p-4 md:p-6 rounded-2xl md:rounded-3xl flex flex-col sm:flex-row items-center gap-4 md:gap-6 transition-all duration-500 border-2 ${
                   isBundleBuilding 
-                    ? 'bg-background-dark border-primary scale-[1.01] shadow-2xl' 
-                    : 'bg-primary/10 border-primary/30 hover:border-primary shadow-xl shadow-primary/5'
+                    ? 'bg-background-main border-primary scale-[1.01] shadow-[0_0_30px_rgba(230,255,0,0.2)]' 
+                    : 'bg-primary/5 border-neon-border hover:border-primary shadow-xl shadow-primary/5'
                 }`}
               >
-                 <div className={`size-10 md:size-14 rounded-xl md:rounded-2xl flex items-center justify-center text-background-dark shadow-2xl shrink-0 transition-transform group-hover:scale-110 ${isBundleBuilding ? 'bg-primary' : 'bg-primary animate-bounce'}`}>
+                 <div className={`size-10 md:size-14 rounded-xl md:rounded-2xl flex items-center justify-center text-black shadow-2xl shrink-0 transition-transform group-hover:scale-110 ${isBundleBuilding ? 'bg-primary shadow-[0_0_15px_rgba(230,255,0,0.4)]' : 'bg-primary animate-bounce shadow-[0_0_15px_rgba(230,255,0,0.4)]'}`}>
                     <span className="material-symbols-outlined text-xl md:text-3xl font-black">
                       {isBundleBuilding ? 'shopping_basket' : 'celebration'}
                     </span>
                  </div>
                  <div className="text-center sm:text-left flex-1 space-y-0.5">
-                   <h3 className={`text-base md:text-xl font-black tracking-tight ${isBundleBuilding ? 'text-white' : ''}`}>
+                   <h3 className={`text-base md:text-xl font-black tracking-tight text-white`}>
                       {isBundleBuilding ? 'Selection Active' : 'Special Bundle: Buy 3, Get 50% Off!'}
                    </h3>
-                   <p className={`text-[10px] md:text-xs font-medium ${isBundleBuilding ? 'text-slate-400' : 'text-slate-700 dark:text-slate-300'} line-clamp-1`}>
+                   <p className={`text-[10px] md:text-xs font-medium text-secondary-text line-clamp-1`}>
                       {isBundleBuilding 
                        ? `Selecting courses. Progress: ${selectedBundleCourses.length}/3`
                        : 'Unlock massive savings. Pick any 3 tracks and instantly halve your investment.'}
                    </p>
                  </div>
                  {!isBundleBuilding && (
-                    <button className="w-full sm:w-auto px-4 py-2 bg-background-dark text-white font-black rounded-lg group-hover:bg-primary group-hover:text-background-dark transition-all uppercase tracking-widest text-[9px]">
+                    <button className="w-full sm:w-auto px-4 py-2 bg-primary text-black font-black rounded-lg hover:shadow-[0_0_15px_rgba(230,255,0,0.4)] transition-all uppercase tracking-widest text-[9px]">
                       START BUNDLE
                     </button>
                  )}
@@ -805,7 +813,7 @@ const App: React.FC = () => {
               {/* Desktop Topic Sidebar (Slide Bar) */}
               <aside className="hidden lg:flex flex-col w-64 shrink-0 gap-8 sticky top-24 h-[calc(100vh-120px)] overflow-y-auto no-scrollbar">
                 <div className="space-y-4">
-                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400">Course Topics</h3>
+                  <h3 className="text-xs font-black uppercase tracking-[0.3em] text-secondary-text">Course Topics</h3>
                   <div className="flex flex-col gap-2">
                     {categories.map((cat) => {
                       const icons: Record<string, string> = {
@@ -824,8 +832,8 @@ const App: React.FC = () => {
                           onClick={() => setActiveCategory(cat)}
                           className={`flex items-center gap-3 px-5 py-4 rounded-2xl transition-all group text-left ${
                             isActive 
-                              ? 'bg-primary text-background-dark shadow-xl shadow-primary/20 font-black' 
-                              : 'hover:bg-slate-100 dark:hover:bg-[#393928] text-slate-600 dark:text-slate-400'
+                              ? 'bg-primary text-black shadow-[0_0_20px_rgba(230,255,0,0.3)] font-black' 
+                              : 'bg-background-secondary hover:bg-card text-secondary-text'
                           }`}
                         >
                           <span className={`material-symbols-outlined text-xl ${isActive ? 'fill-1' : 'group-hover:scale-110 transition-transform'}`}>
@@ -838,13 +846,13 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-auto p-6 rounded-[32px] bg-background-dark text-white relative overflow-hidden group">
+                <div className="mt-auto p-6 rounded-[32px] bg-card text-white relative overflow-hidden group border border-neon-border">
                   <div className="absolute -right-4 -bottom-4 size-24 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                   <h4 className="text-lg font-black leading-tight relative z-10">Need help choosing?</h4>
-                  <p className="text-[10px] text-slate-400 mt-2 font-bold uppercase tracking-widest relative z-10">Ask our AI Tutor</p>
+                  <p className="text-[10px] text-secondary-text mt-2 font-bold uppercase tracking-widest relative z-10">Ask our AI Tutor</p>
                   <button 
                     onClick={() => setCurrentView('home')}
-                    className="mt-4 w-full py-3 bg-primary text-background-dark text-[10px] font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all relative z-10"
+                    className="mt-4 w-full py-3 bg-primary text-black text-[10px] font-black uppercase tracking-widest rounded-xl hover:scale-105 transition-all relative z-10 shadow-[0_0_15px_rgba(230,255,0,0.3)]"
                   >
                     Start Chat
                   </button>
@@ -863,19 +871,19 @@ const App: React.FC = () => {
                           onClick={() => setActiveCategory(cat)}
                           className={`flex h-12 shrink-0 items-center justify-center gap-x-2 rounded-2xl px-6 text-[10px] font-black uppercase tracking-[0.2em] transition-all whitespace-nowrap snap-start border-2 ${
                             isActive 
-                              ? 'bg-primary border-primary text-background-dark shadow-xl shadow-primary/20 scale-105 z-10' 
-                              : 'bg-white dark:bg-[#2A2A1D] border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:border-primary/30'
+                              ? 'bg-primary border-primary text-black shadow-[0_0_15px_rgba(230,255,0,0.3)] scale-105 z-10' 
+                              : 'bg-background-secondary border-neon-border text-secondary-text hover:border-primary/30'
                           }`}
                         >
-                          {isActive && <span className="size-1.5 rounded-full bg-background-dark animate-pulse"></span>}
+                          {isActive && <span className="size-1.5 rounded-full bg-black animate-pulse"></span>}
                           {cat}
                         </button>
                       );
                     })}
                   </div>
                   {/* Gradient Masks for scroll indication */}
-                  <div className="absolute top-0 left-0 w-12 h-full bg-gradient-to-r from-background-light dark:from-background-dark to-transparent pointer-events-none opacity-60 group-hover/slider:opacity-100 transition-opacity"></div>
-                  <div className="absolute top-0 right-0 w-12 h-full bg-gradient-to-l from-background-light dark:from-background-dark to-transparent pointer-events-none opacity-60 group-hover/slider:opacity-100 transition-opacity"></div>
+                  <div className="absolute top-0 left-0 w-12 h-full bg-gradient-to-r from-background-main to-transparent pointer-events-none opacity-60 group-hover/slider:opacity-100 transition-opacity"></div>
+                  <div className="absolute top-0 right-0 w-12 h-full bg-gradient-to-l from-background-main to-transparent pointer-events-none opacity-60 group-hover/slider:opacity-100 transition-opacity"></div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 md:gap-10">
@@ -899,7 +907,7 @@ const App: React.FC = () => {
                                   : 'bg-black/10 border-transparent hover:bg-black/40'
                               }`}
                             >
-                              <div className={`size-16 rounded-full flex items-center justify-center shadow-2xl transition-all ${isSelectedForBundle ? 'bg-primary text-background-dark scale-110' : 'bg-white/90 text-slate-400'}`}>
+                              <div className={`size-16 rounded-full flex items-center justify-center shadow-2xl transition-all ${isSelectedForBundle ? 'bg-primary text-black scale-110' : 'bg-white/90 text-slate-400'}`}>
                                 <span className="material-symbols-outlined text-4xl font-black">
                                   {isSelectedForBundle ? 'check' : 'add'}
                                 </span>
@@ -914,8 +922,8 @@ const App: React.FC = () => {
                     })
                   ) : (
                     <div className="col-span-full py-20 text-center">
-                      <span className="material-symbols-outlined text-6xl text-slate-300 dark:text-slate-700 mb-4">search_off</span>
-                      <p className="text-slate-500 text-lg font-bold">No tracks matched your criteria.</p>
+                      <span className="material-symbols-outlined text-6xl text-secondary-text mb-4">search_off</span>
+                      <p className="text-secondary-text text-lg font-bold">No tracks matched your criteria.</p>
                     </div>
                   )}
                 </div>
@@ -932,9 +940,9 @@ const App: React.FC = () => {
                     </div>
                     <div className="flex gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
                        {[1, 2, 3].map(i => (
-                         <div key={i} className={`size-8 sm:size-10 rounded-lg sm:rounded-xl flex items-center justify-center border-2 transition-all shrink-0 ${selectedBundleCourses[i-1] ? 'bg-primary border-primary text-background-dark shadow-lg shadow-primary/20' : 'border-slate-800 text-slate-700'}`}>
+                         <div key={i} className={`size-8 sm:size-10 rounded-lg sm:rounded-xl flex items-center justify-center border-2 transition-all shrink-0 ${selectedBundleCourses[i-1] ? 'bg-primary border-primary text-black shadow-lg shadow-primary/20' : 'border-neon-border text-secondary-text'}`}>
                             {selectedBundleCourses[i-1] ? (
-                              <img src={selectedBundleCourses[i-1].imageUrl} className="size-full object-cover rounded-lg" alt="" />
+                              <img src={selectedBundleCourses[i-1].imageUrl} className="size-full object-cover rounded-lg" alt="" referrerPolicy="no-referrer" />
                             ) : (
                               <span className="material-symbols-outlined text-xs sm:text-sm">auto_awesome</span>
                             )}
@@ -945,14 +953,14 @@ const App: React.FC = () => {
                   <div className="flex items-center gap-2 w-full sm:w-auto">
                     <button 
                       onClick={() => { setIsBundleBuilding(false); setSelectedBundleCourses([]); }}
-                      className="flex-1 sm:flex-none px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] sm:text-xs font-black uppercase text-slate-500 hover:text-white transition-colors"
+                      className="flex-1 sm:flex-none px-3 sm:px-6 py-2.5 sm:py-4 text-[9px] sm:text-xs font-black uppercase text-secondary-text hover:text-white transition-colors"
                     >
                       Cancel
                     </button>
                     <button 
                       disabled={selectedBundleCourses.length < 3}
                       onClick={handleStartBundleCheckout}
-                      className="flex-1 sm:flex-none px-5 sm:px-10 py-2.5 sm:py-4 bg-primary text-background-dark font-black rounded-lg sm:rounded-2xl shadow-xl hover:scale-105 transition-all disabled:opacity-20 disabled:grayscale uppercase tracking-widest text-[9px] sm:text-xs"
+                      className="flex-1 sm:flex-none px-5 sm:px-10 py-2.5 sm:py-4 bg-primary text-black font-black rounded-lg sm:rounded-2xl shadow-xl hover:scale-105 transition-all disabled:opacity-20 disabled:grayscale uppercase tracking-widest text-[9px] sm:text-xs"
                     >
                       CHECKOUT
                     </button>
@@ -993,6 +1001,7 @@ const App: React.FC = () => {
         currentView={currentView} cartCount={cartItems.length} wishlistCount={wishlist.length}
         enrolledCount={enrolledCoursesData.length} isLoggedIn={isLoggedIn} isAdmin={isAdmin} user={userData}
         isMobileMenuOpen={isMobileMenuOpen} onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode}
       />
 
       <div className="flex-1 flex min-h-[calc(100vh-65px)]">
@@ -1009,7 +1018,17 @@ const App: React.FC = () => {
         )}
         <main className="flex-1 min-w-0 px-4 sm:px-6 md:px-8 lg:px-12 pb-32 lg:pb-16">
           <div className="max-w-7xl mx-auto flex flex-col gap-10">
-            {renderContent()}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentView + (selectedCourse?.id || '') + isAuthing + isEnrolling}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
           </div>
         </main>
       </div>
@@ -1023,22 +1042,22 @@ const App: React.FC = () => {
         />
       )}
 
-      <footer className="border-t border-slate-200 dark:border-[#393928] bg-white dark:bg-[#181811] px-6 py-20 lg:px-14 flex-shrink-0">
+      <footer className="border-t border-neon-border bg-background-secondary px-6 py-20 lg:px-14 flex-shrink-0">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20 text-left">
           <div className="space-y-8">
-            <div className="flex items-center gap-4 text-slate-900 dark:text-white">
-              <div className="size-12 flex items-center justify-center bg-primary rounded-2xl text-background-dark shadow-xl">
+            <div className="flex items-center gap-4 text-white">
+              <div className="size-12 flex items-center justify-center bg-primary rounded-2xl text-black shadow-[0_0_15px_rgba(230,255,0,0.4)]">
                 <span className="material-symbols-outlined text-3xl font-black">school</span>
               </div>
               <h2 className="text-3xl font-black tracking-tighter cursor-pointer" onClick={() => handleNavigate('home')}>Shala</h2>
             </div>
-            <p className="text-sm text-slate-500 dark:text-[#baba9c] leading-relaxed font-medium">
+            <p className="text-sm text-secondary-text leading-relaxed font-medium">
               Empowering professional growth via cloud-native, AI-integrated certification programs since 2018.
             </p>
           </div>
           <div className="space-y-8">
             <h4 className="font-black uppercase text-[10px] tracking-widest text-primary">Topics</h4>
-            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 items-start">
+            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-secondary-text items-start">
               <button onClick={() => handleNavigateToCatalog(Category.TECHNOLOGY)} className="hover:text-primary transition-colors">Development</button>
               <button onClick={() => handleNavigateToCatalog(Category.DATA_SCIENCE)} className="hover:text-primary transition-colors">Analytics</button>
               <button onClick={() => handleNavigateToCatalog(Category.DESIGN)} className="hover:text-primary transition-colors">Product Design</button>
@@ -1046,7 +1065,7 @@ const App: React.FC = () => {
           </div>
           <div className="space-y-8">
             <h4 className="font-black uppercase text-[10px] tracking-widest text-primary">Support</h4>
-            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 items-start">
+            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-secondary-text items-start">
               <button onClick={() => handleNavigate('home')} className="hover:text-primary transition-colors">Overview</button>
               <button onClick={() => setLegalType('terms')} className="hover:text-primary transition-colors">Terms of Use</button>
               <button onClick={() => setLegalType('privacy')} className="hover:text-primary transition-colors">Privacy Policy</button>
@@ -1054,18 +1073,18 @@ const App: React.FC = () => {
           </div>
           <div className="space-y-8">
             <h4 className="font-black uppercase text-[10px] tracking-widest text-primary">Intelligence</h4>
-            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 items-start">
+            <nav className="flex flex-col gap-4 text-xs font-bold uppercase tracking-widest text-secondary-text items-start">
               <button onClick={() => handleNavigate('ai-tutor')} className="hover:text-primary transition-colors">Global Assistant</button>
               <button onClick={() => handleNavigate('career-paths')} className="hover:text-primary transition-colors">Path Forecasting</button>
               <button onClick={() => handleNavigate('knowledge-brief')} className="hover:text-primary transition-colors">Industry Briefs</button>
             </nav>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto pt-10 border-t border-slate-100 dark:border-slate-800 text-center flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">© 2025 Shala Learning Platform Inc. Cloud Architecture.</p>
+        <div className="max-w-7xl mx-auto pt-10 border-t border-neon-border text-center flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[10px] font-black uppercase tracking-widest text-secondary-text">© 2025 Shala Learning Platform Inc. Cloud Architecture.</p>
           <div className="flex gap-8">
-            <button onClick={() => setLegalType('terms')} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors">Terms</button>
-            <button onClick={() => setLegalType('privacy')} className="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-primary transition-colors">Privacy</button>
+            <button onClick={() => setLegalType('terms')} className="text-[10px] font-black uppercase tracking-widest text-secondary-text hover:text-primary transition-colors">Terms</button>
+            <button onClick={() => setLegalType('privacy')} className="text-[10px] font-black uppercase tracking-widest text-secondary-text hover:text-primary transition-colors">Privacy</button>
           </div>
         </div>
       </footer>

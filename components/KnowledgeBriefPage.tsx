@@ -48,7 +48,7 @@ const KnowledgeBriefPage: React.FC<KnowledgeBriefPageProps> = ({ onBack }) => {
             className={`px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
               topic === t 
                 ? 'bg-primary text-background-dark shadow-xl scale-105' 
-                : 'bg-white dark:bg-[#1f1f14] border border-slate-100 dark:border-slate-800 text-slate-500 hover:border-primary/50'
+                : 'bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-800 text-slate-500 hover:border-primary/50'
             }`}
           >
             {t}
@@ -57,7 +57,7 @@ const KnowledgeBriefPage: React.FC<KnowledgeBriefPageProps> = ({ onBack }) => {
       </div>
 
       {isLoading ? (
-        <div className="bg-white dark:bg-[#1f1f14] p-8 md:p-12 rounded-[32px] md:rounded-[50px] border-2 border-dashed border-primary/20 flex flex-col items-center justify-center space-y-6">
+        <div className="bg-white dark:bg-surface-dark p-8 md:p-12 rounded-[32px] md:rounded-[50px] border-2 border-dashed border-primary/20 flex flex-col items-center justify-center space-y-6">
            <div className="size-16 md:size-20 rounded-full border-4 border-primary/10 border-t-primary animate-spin"></div>
            <p className="text-xs md:text-sm font-black uppercase text-primary tracking-widest animate-pulse">Aggregating AI Intelligence...</p>
         </div>
