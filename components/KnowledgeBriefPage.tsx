@@ -47,7 +47,7 @@ const KnowledgeBriefPage: React.FC<KnowledgeBriefPageProps> = ({ onBack }) => {
             disabled={isLoading}
             className={`px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
               topic === t 
-                ? 'bg-primary text-background-dark shadow-xl scale-105' 
+                ? 'bg-primary text-black shadow-xl scale-105' 
                 : 'bg-white dark:bg-surface-dark border border-slate-100 dark:border-slate-800 text-slate-500 hover:border-primary/50'
             }`}
           >

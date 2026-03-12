@@ -316,7 +316,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
             <p className="text-zinc-400 max-w-2xl font-medium text-sm md:text-xl leading-relaxed">Monitoring real-time activity across the cloud infrastructure. Audit student engagement metrics and financial history with precision.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <button onClick={() => setActiveTab('users')} className="w-full sm:w-auto px-10 py-5 bg-primary text-background-dark font-black rounded-2xl text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20">Open User Hub</button>
+            <button onClick={() => setActiveTab('users')} className="w-full sm:w-auto px-10 py-5 bg-primary text-black font-black rounded-2xl text-xs uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20">Open User Hub</button>
             <button onClick={() => setActiveTab('enrollments')} className="w-full sm:w-auto px-10 py-5 bg-white/10 text-white font-black rounded-2xl text-xs uppercase tracking-widest hover:bg-white/20 transition-all border border-white/10">Audit Sales</button>
           </div>
         </div>
@@ -415,7 +415,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto mt-4 lg:mt-0">
           <button 
             onClick={() => { setActiveTab('courses'); onEditCourse?.({ id: '', title: '', description: '', price: 0, category: Category.TECHNOLOGY, imageUrl: '', rating: 0, reviews: 0, duration: '', instructor: '' }); }}
-            className="px-10 py-5 bg-primary text-background-dark font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3"
+            className="px-10 py-5 bg-primary text-black font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3"
           >
             <span className="material-symbols-outlined text-2xl font-black">add</span>
             Add New Track
@@ -963,7 +963,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
                     imageUrl: 'https://picsum.photos/seed/course/800/600',
                     instructor: 'New Instructor'
                   })}
-                  className="px-10 py-5 bg-primary text-background-dark font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 shrink-0"
+                  className="px-10 py-5 bg-primary text-black font-black rounded-2xl shadow-2xl shadow-primary/20 hover:scale-[1.05] active:scale-95 transition-all text-xs uppercase tracking-[0.2em] flex items-center justify-center gap-3 shrink-0"
                 >
                   <span className="material-symbols-outlined text-2xl font-black">add</span>
                   Add New Track

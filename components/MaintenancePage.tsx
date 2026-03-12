@@ -38,7 +38,7 @@ const MaintenancePage: React.FC<MaintenancePageProps> = ({ onAdminAuth, endTime 
   }, [endTime]);
 
   return (
-    <div className="fixed inset-0 z-[200] bg-background-dark text-white flex flex-col items-center justify-center p-6 selection:bg-primary selection:text-background-dark overflow-hidden">
+    <div className="fixed inset-0 z-[200] bg-background-dark text-white flex flex-col items-center justify-center p-6 selection:bg-primary selection:text-black overflow-hidden">
       {/* Immersive Background Effects */}
       <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[800px] bg-primary rounded-full blur-[150px]"></div>
@@ -52,7 +52,7 @@ const MaintenancePage: React.FC<MaintenancePageProps> = ({ onAdminAuth, endTime 
       <div className="relative z-10 max-w-3xl w-full text-center space-y-12 animate-in fade-in zoom-in-95 duration-1000">
         <div className="flex justify-center">
           <div className="relative">
-            <div className="size-24 bg-primary rounded-[32px] flex items-center justify-center text-background-dark shadow-2xl shadow-primary/20 animate-pulse">
+            <div className="size-24 bg-primary rounded-[32px] flex items-center justify-center text-black shadow-2xl shadow-primary/20 animate-pulse">
               <span className="material-symbols-outlined text-5xl font-black">settings_suggest</span>
             </div>
             <div className="absolute -bottom-2 -right-2 size-10 bg-white rounded-full flex items-center justify-center text-background-dark border-4 border-background-dark">
@@ -93,7 +93,7 @@ const MaintenancePage: React.FC<MaintenancePageProps> = ({ onAdminAuth, endTime 
           </div>
         ) : endTime && (
           <div className="py-8">
-            <div className="px-8 py-4 bg-primary text-background-dark rounded-2xl font-black text-sm uppercase tracking-widest animate-pulse">
+            <div className="px-8 py-4 bg-primary text-black rounded-2xl font-black text-sm uppercase tracking-widest animate-pulse">
               Finalizing Core Deployment...
             </div>
           </div>

@@ -985,7 +985,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden selection:bg-primary selection:text-background-dark">
+    <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden selection:bg-primary selection:text-black">
       <LegalModal type={legalType} content={legalContent} onClose={() => setLegalType(null)} />
       
       {toastMessage && (
